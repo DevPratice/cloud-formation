@@ -27,8 +27,7 @@ Resources:
     Condition: CreateProdResources
     Properties:
       GroupDescription: Allow SSH PORT
-      VpcId:
-        Ref: VPC
+      VpcId: vpc-4271752b
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '22'
@@ -43,8 +42,7 @@ Resources:
     Condition: CreateDevResources
     Properties:
       GroupDescription: Allow all PORTs
-      VpcId:
-        Ref: VPC
+      VpcId: vpc-4271752b
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '-1'
