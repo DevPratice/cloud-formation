@@ -45,8 +45,8 @@ Resources:
       VpcId: vpc-4271752b
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: '-1'
-        ToPort: '-1'
+        #FromPort: '-1'
+        #ToPort: '-1'
         CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: '-1'
