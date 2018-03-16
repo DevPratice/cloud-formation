@@ -1,5 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
+### Mappings
+Mappings:
+  AMIMAP: 
+    us-east-2: 
+      "64": "ami-d9c3f5bc"
+
+
 ### Resources 
 Resources:
   VPC:
@@ -28,25 +35,6 @@ Resources:
       InternetGatewayId:
         Ref: IGW
 
-  RouteTPublicAZa:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId:
-        Ref: VPC
-      Tags:
-      - Key: Name
-        Value: RouteTPublicAZa
-      
-  RoutePublicAZa:
-    Type: AWS::EC2::Route
-    DependsOn: RouteTPublicAZa
-    Properties:
-      RouteTableId:
-        Ref: RouteTPublicAZa
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId:
-        Ref: IGW
-
   PubSubnetAZa:
     Type: AWS::EC2::Subnet
     Properties:
@@ -58,14 +46,6 @@ Resources:
       Tags:
       - Key: Name
         Value: PubSubnetAZa
-
-  AZaRouteAssoc:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId:
-        Ref: PubSubnetAZa
-      RouteTableId:
-        Ref: RouteTPublicAZa
 
   PubSubnetAZb:
     Type: AWS::EC2::Subnet
@@ -127,7 +107,22 @@ Resources:
   SgDefault:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow MariaDB port
+      GroupDescription: Allow SSH PORT
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: '-1'
+        CidrIp: 0.0.0.0/0
+
+  DBSgDefault:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow MySQL PORT
       VpcId:
         Ref: VPC
       SecurityGroupIngress:
@@ -139,20 +134,7 @@ Resources:
       - IpProtocol: '-1'
         CidrIp: 0.0.0.0/0
 
-  DBSubnetGroup: 
-    Type: "AWS::RDS::DBSubnetGroup"
-    Properties: 
-      DBSubnetGroupDescription: "DB Subnet Group"
-      SubnetIds: 
-        - Ref: PriSubnetAZa
-        - Ref: PriSubnetAZb
-        - Ref: PriSubnetAZc
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "DB Subnet Group"
-
-  MyDB: 
+  StudentDB: 
     Type: "AWS::RDS::DBInstance"
     Properties: 
       DBName: studentapp
@@ -162,13 +144,23 @@ Resources:
       EngineVersion: "5.5"
       DBSubnetGroupName: 
         Ref: DBSubnetGroup
+      DBSecurityGroups:
+        - Ref: DBSgDefault
       MasterUsername: "student"
       MasterUserPassword: "student123"
       Tags: 
         - 
           Key: "Name"
           Value: "studentapp"
-    #DeletionPolicy: "Snapshot"
 
-  
-
+  Ec2InstancePUBAZa: 
+    Type: "AWS::EC2::Instance"
+    DependsOn: StudentDB
+    Properties: 
+      ImageId: !FindInMap [ AMIMAP, us-east-2, 64 ]
+      InstanceType: "t2.micro"
+      KeyName: devops
+      SecurityGroupIds: 
+        - Ref: SgDefault
+      SubnetId: 
+        Ref: PubSubnetAZa
