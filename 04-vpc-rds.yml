@@ -139,21 +139,4 @@ Resources:
       - IpProtocol: '-1'
         CidrIp: 0.0.0.0/0
 
-  MyDB: 
-    Type: "AWS::RDS::DBInstance"
-    Properties: 
-      DBName: studentapp
-      AllocatedStorage: "10"
-      DBInstanceClass: "db.t2.micro"
-      Engine: "MySQL"
-      EngineVersion: "5.5"
-      DBSubnetGroupName: 
-        Ref: PriSubnetAZa
-      MasterUsername: "student"
-      MasterUserPassword: "student123"
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "studentapp"
-    #DeletionPolicy: "Snapshot"
 
