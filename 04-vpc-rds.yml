@@ -150,7 +150,7 @@ Resources:
       DBSubnetGroupName: 
         Ref: PriSubnetAZa
       MasterUsername: "student"
-      MasterUserPassword: "student@1"
+      MasterUserPassword: "student123"
       Tags: 
         - 
           Key: "Name"
