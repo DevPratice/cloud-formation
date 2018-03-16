@@ -157,8 +157,8 @@ Resources:
       EngineVersion: "5.5"
       DBSubnetGroupName: 
         Ref: DBSubnetGroup
-      DBSecurityGroups:
-        - Ref: DBSgDefault
+      #DBSecurityGroups:
+      #  - Ref: DBSgDefault
       MasterUsername: "student"
       MasterUserPassword: "student123"
       Tags: 
