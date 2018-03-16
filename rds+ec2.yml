@@ -158,7 +158,7 @@ Resources:
       DBSubnetGroupName: 
         Ref: DBSubnetGroup
       DBSecurityGroups:
-        Ref: DBSgDefault
+        - Ref: DBSgDefault
       MasterUsername: "student"
       MasterUserPassword: "student123"
       Tags: 
