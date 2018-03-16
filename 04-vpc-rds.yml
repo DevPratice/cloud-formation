@@ -139,4 +139,18 @@ Resources:
       - IpProtocol: '-1'
         CidrIp: 0.0.0.0/0
 
+  DBSubnetGroup: 
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties: 
+      DBSubnetGroupDescription: "DB Subnet Group"
+      SubnetIds: 
+        - Ref: PriSubnetAZa
+        - Ref: PriSubnetAZb
+        - Ref: PriSubnetAZc
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "DB Subnet Group"
+
+
 
