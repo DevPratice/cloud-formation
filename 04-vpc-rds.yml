@@ -18,7 +18,7 @@ Mappings:
     us-east-2: 
       "64": "ami-d9c3f5bc"
 
-
+###
 ### Resources 
 Resources:
   VPC:
