@@ -152,5 +152,21 @@ Resources:
           Key: "Name"
           Value: "DB Subnet Group"
 
-
+  MyDB: 
+    Type: "AWS::RDS::DBInstance"
+    Properties: 
+      DBName: studentapp
+      AllocatedStorage: "10"
+      DBInstanceClass: "db.t2.micro"
+      Engine: "MySQL"
+      EngineVersion: "5.5"
+      DBSubnetGroupName: 
+        Ref: DBSubnetGroup
+      MasterUsername: "student"
+      MasterUserPassword: "student123"
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "studentapp"
+    #DeletionPolicy: "Snapshot"
 
