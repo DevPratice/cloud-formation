@@ -104,6 +104,19 @@ Resources:
       - Key: Name
         Value: PriSubnetAZc
 
+  DBSubnetGroup: 
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties: 
+      DBSubnetGroupDescription: "DB Subnet Group"
+      SubnetIds: 
+        - Ref: PriSubnetAZa
+        - Ref: PriSubnetAZb
+        - Ref: PriSubnetAZc
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "DB Subnet Group"
+
   SgDefault:
     Type: AWS::EC2::SecurityGroup
     Properties:
